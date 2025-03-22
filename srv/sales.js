@@ -66,7 +66,7 @@ module.exports = async srv =>{
     });
 
     function connectToDB(){
-        const connectionString = "postgresql://anthony:aVGZ_Q-GwsfgB2z5NS0w3A@anthonys-first-cluster-9355.j77.aws-us-east-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full";
+        const connectionString = "";
 
         const cockroachdb = new Sequelize(connectionString);
         // await cockroachdb.authenticate().then(()=>{
