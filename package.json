@@ -1,0 +1,22 @@
+{
+  "name": "cockroachdb-project",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^7",
+    "cfenv": "^1.2.4",
+    "express": "^4",
+    "sequelize": "^6.37.6",
+    "sequelize-cockroachdb": "^6.0.5"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  }
+}
