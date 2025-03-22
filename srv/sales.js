@@ -62,7 +62,6 @@ module.exports = async srv =>{
     }
 
     function defineSalesOrders(cockroachdb){
-        //console.log(cockroachdb);
         const sales_orders_inventory = cockroachdb.define("sales_orders",{
             orderid:{
                 type:Sequelize.DataTypes.INTEGER,
