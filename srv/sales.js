@@ -100,7 +100,7 @@ module.exports = async srv =>{
             }
         }, 
         {timestamps: false, 
-            cratedAt: false, 
+            createdAt: false, 
             updatedAt: false});
         return sales_orders_inventory;
 
