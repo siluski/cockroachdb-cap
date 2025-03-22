@@ -4,7 +4,7 @@ GET {{server}}/odata/v4/sales-service/sales_orders
 
 ###
 
-DELETE {{server}}/odata/v4/sales-service/sales_orders/5
+DELETE {{server}}/odata/v4/sales-service/sales_orders/6
 
 ###
 
@@ -12,6 +12,7 @@ POST {{server}}/odata/v4/sales-service/sales_orders
 Content-Type: application/json
 
 {
+    "orderid": 6,
     "price": 1500,
     "productname": "SAP Concur",
     "country": "DE",
@@ -24,8 +25,7 @@ PUT  {{server}}/odata/v4/sales-service/sales_orders/5
 Content-Type: application/json
 
 {
-    "orderid": 5,
-    "price": 15001,
+    "price": 1500123,
     "productname": "SAP Concur",
     "country": "DE",
     "buyer": "German Company Updated Again"
