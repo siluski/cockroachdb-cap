@@ -1,3 +1,32 @@
 @server = http://localhost:4004
 
-GET {{server}}/sales_orders
+GET {{server}}/odata/v4/sales-service/sales_orders
+
+###
+
+DELETE {{server}}/odata/v4/sales-service/sales_orders/5
+
+###
+
+POST {{server}}/odata/v4/sales-service/sales_orders
+Content-Type: application/json
+
+{
+    "price": 1500,
+    "productname": "SAP Concur",
+    "country": "DE",
+    "buyer": "German Company"
+}
+
+###
+
+PUT  {{server}}/odata/v4/sales-service/sales_orders/5
+Content-Type: application/json
+
+{
+    "orderid": 5,
+    "price": 15001,
+    "productname": "SAP Concur",
+    "country": "DE",
+    "buyer": "German Company Updated Again"
+}

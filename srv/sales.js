@@ -40,7 +40,8 @@ module.exports = async srv =>{
     srv.on('CREATE', 'sales_orders', async (req) =>{
         const new_order = req.data;
 
-        const created_order = await sales_orders.create({orderid: new_order.orderid, price: new_order.price, productname: new_order.productname, country: new_order.country, buyer: new_order.buyer}).catch(err =>{
+        const created_order = await sales_orders.create({orderid: new_order.orderid, price: new_order.price, 
+            productname: new_order.productname, country: new_order.country, buyer: new_order.buyer}).catch(err =>{
             console.error("Error: ", err);
         });
 
@@ -48,8 +49,27 @@ module.exports = async srv =>{
 
     });
 
+    srv.on('PUT', 'sales_orders', async (req) =>{
+        const orderToUpdate = req.data;
+
+        const updatedOrder = await sales_orders.update({price: req.data.price, productname: orderToUpdate.productname,
+            country: orderToUpdate.country, buyer: orderToUpdate.buyer
+        },{
+            where:{
+                orderid: orderToUpdate.orderid
+            }
+        }).catch(err =>{
+            console.error("Error: ", err);
+        });
+        
+        if(updatedOrder === 0){
+            console.error("Error: Updated Failed!");
+        }
+        
+    });
+
     function connectToDB(){
-        const connectionString = "";
+        const connectionString = "postgresql://anthony:aVGZ_Q-GwsfgB2z5NS0w3A@anthonys-first-cluster-9355.j77.aws-us-east-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full";
 
         const cockroachdb = new Sequelize(connectionString);
         // await cockroachdb.authenticate().then(()=>{
