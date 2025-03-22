@@ -38,7 +38,6 @@ module.exports = async srv =>{
 
 
     srv.on('CREATE', 'sales_orders', async (req) =>{
-        //console.log(req);
         const new_order = req.data;
 
         const created_order = await sales_orders.create({orderid: new_order.orderid, price: new_order.price, productname: new_order.productname, country: new_order.country, buyer: new_order.buyer}).catch(err =>{
