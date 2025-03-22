@@ -8,17 +8,15 @@ module.exports = async srv =>{
 
     srv.on('READ', 'sales_orders', async (req)=>{
 
-        if(req._queryOptions != null){
-            const orderQuery = req._queryOptions;
-            const query = orderQuery.$filter.trim();
-            const orderid = query.charAt(query.length -1);
-            const salesOrder = await sales_orders.findOne({where: {orderid}, raw: true}).catch(err =>{
-                console.error("Error: ", err);
-            });
-            return salesOrder;
-
-
-        }else{
+        if(req._queryOptions.$filter != null){
+                const orderQuery = req._queryOptions;
+                const query = orderQuery.$filter.trim();
+                const orderid = query.charAt(query.length -1);
+                const salesOrder = await sales_orders.findOne({where: {orderid}, raw: true}).catch(err =>{
+                    console.error("Error: ", err);
+                });
+                return salesOrder;
+            }else{
             const all_orders = await sales_orders.findAll({raw: true});
             return all_orders;
         }
@@ -68,7 +66,7 @@ module.exports = async srv =>{
     });
 
     function connectToDB(){
-        const connectionString = "asa";
+        const connectionString = "postgresql://anthony:aVGZ_Q-GwsfgB2z5NS0w3A@anthonys-first-cluster-9355.j77.aws-us-east-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full";
 
         const cockroachdb = new Sequelize(connectionString);
         // await cockroachdb.authenticate().then(()=>{
