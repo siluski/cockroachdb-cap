@@ -9,14 +9,15 @@
     "@sap/cds": "^7",
     "cfenv": "^1.2.4",
     "express": "^4",
+    "odata-sequelize": "^1.0.23",
     "sequelize": "^6.37.6",
     "sequelize-cockroachdb": "^6.0.5"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
-    "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
+    "mbt": "^1.2.29",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",

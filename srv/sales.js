@@ -1,5 +1,6 @@
 const cds = require('@sap/cds');
 const Sequelize = require('sequelize-cockroachdb');
+const odataParse = require('odata-sequelize');
 
 module.exports = async srv =>{
 
@@ -8,16 +9,18 @@ module.exports = async srv =>{
 
     srv.on('READ', 'sales_orders', async (req)=>{
 
-        if(req._queryOptions.$filter != null){
-                const orderQuery = req._queryOptions;
-                const query = orderQuery.$filter.trim();
-                const orderid = query.charAt(query.length -1);
-                const salesOrder = await sales_orders.findOne({where: {orderid}, raw: true}).catch(err =>{
+
+        if(req._queryOptions != null){
+                const odataReq = generateODataUrl(req._queryOptions);
+                odataReq.raw = true;
+                const salesOrders = await sales_orders.findAll(odataReq).catch(err =>{
                     console.error("Error: ", err);
                 });
-                return salesOrder;
+                salesOrders.$count = salesOrders.length;
+                return salesOrders;
             }else{
             const all_orders = await sales_orders.findAll({raw: true});
+            all_orders.$count = all_orders.length;
             return all_orders;
         }
     });
@@ -102,6 +105,40 @@ module.exports = async srv =>{
             updatedAt: false});
         return sales_orders_inventory;
 
+    }
+
+    function generateODataUrl(queryOptions){
+        let odataQuery = [];
+        console.log(queryOptions);
+
+        if(queryOptions.$filter != null){
+            odataQuery.push(`$filter=${queryOptions.$filter}`);
+        }
+        if(queryOptions.$top != null){
+            odataQuery.push(`$top=${queryOptions.$top}`);
+        }
+        if(queryOptions.$orderby != null){
+            odataQuery.push(`$orderby=${queryOptions.$orderby}`);
+        }
+        if(queryOptions.$skip != null){
+            odataQuery.push(`$skip=${queryOptions.$skip}`);
+        }
+        if(queryOptions.$count != null){
+            odataQuery.push(`$count=${queryOptions.$count}`);
+        }
+
+        let finalOdataQuery = odataQuery.toString();
+        finalOdataQuery = finalOdataQuery.replaceAll(",","&");
+        if(queryOptions.$select != null){
+            if(odataQuery.len > 0){
+                finalOdataQuery = `$select=${queryOptions.$select}&`+finalOdataQuery;
+            }else{
+                finalOdataQuery=`$select=${queryOptions.$select}`;
+            }
+        }
+        console.log(finalOdataQuery);
+        const sequelizeOdata = odataParse(finalOdataQuery, Sequelize);
+        return sequelizeOdata;
     }
 
 }

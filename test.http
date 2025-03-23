@@ -1,6 +1,6 @@
 @server = http://localhost:4004
 
-GET {{server}}/odata/v4/sales-service/sales_orders
+GET {{server}}/odata/v4/sales-service/sales_orders?$select=productname
 
 ###
 
