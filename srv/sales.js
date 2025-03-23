@@ -11,6 +11,9 @@ module.exports = async srv =>{
 
 
         if(req._queryOptions != null){
+                if(req.data.orderid != undefined){
+                    req._queryOptions.$filter = `orderid eq ${req.data.orderid}`;
+                }
                 const odataReq = generateODataUrl(req._queryOptions);
                 odataReq.raw = true;
                 const salesOrders = await sales_orders.findAll(odataReq).catch(err =>{
@@ -44,7 +47,6 @@ module.exports = async srv =>{
             productname: new_order.productname, country: new_order.country, buyer: new_order.buyer}).catch(err =>{
             console.error("Error: ", err);
         });
-
         return created_order;
 
     });
@@ -130,7 +132,7 @@ module.exports = async srv =>{
         let finalOdataQuery = odataQuery.toString();
         finalOdataQuery = finalOdataQuery.replaceAll(",","&");
         if(queryOptions.$select != null){
-            if(odataQuery.len > 0){
+            if(odataQuery.length > 0){
                 finalOdataQuery = `$select=${queryOptions.$select}&`+finalOdataQuery;
             }else{
                 finalOdataQuery=`$select=${queryOptions.$select}`;
