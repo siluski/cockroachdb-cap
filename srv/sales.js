@@ -1,7 +1,7 @@
 const cds = require('@sap/cds');
 const Sequelize = require('sequelize-cockroachdb');
 const odataParse = require('odata-sequelize');
-
+const cfenv = require('cfenv');
 module.exports = async srv =>{
 
     const cockroachdb = connectToDB();
@@ -71,7 +71,8 @@ module.exports = async srv =>{
     });
 
     function connectToDB(){
-        const connectionString = "";
+        const appEnv = cfenv.getAppEnv();
+        const connectionString = appEnv.getServiceCreds('anthony-cockroachdb').host;
 
         const cockroachdb = new Sequelize(connectionString);
         // await cockroachdb.authenticate().then(()=>{
@@ -138,7 +139,6 @@ module.exports = async srv =>{
                 finalOdataQuery=`$select=${queryOptions.$select}`;
             }
         }
-        console.log(finalOdataQuery);
         const sequelizeOdata = odataParse(finalOdataQuery, Sequelize);
         return sequelizeOdata;
     }

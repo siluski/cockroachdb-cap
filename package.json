@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^7",
+    "@sap/xssec": "^4.5.0",
     "cfenv": "^1.2.4",
     "express": "^4",
     "odata-sequelize": "^1.0.23",
